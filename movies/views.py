@@ -8,19 +8,6 @@ import json
 # Create your views here.
 
 class MoviesView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        actor = Actor.objects.create(
-            {
-                "first_name" : data["first_name"],
-                "last_name" : data["last_name"],
-                "date_of_birth" : data["birth"]
-        }
-        )
-        return JsonResponse({"result" : "CREATE"}, status = 201)
-
-
-
     def get(self,request):
         ac = Actor.objects.all()
         results=[]
@@ -28,7 +15,23 @@ class MoviesView(View):
             results.append(
                 {
                     "first_name" : a.first_name,
-                    "movies" : [i.title for i in a.movie.all()],                    
+                    "movies" : [i.title for i in a.movies.all()],                    
+                }
+            )
+        return JsonResponse({"result":results}, status = 201)
+
+
+class ActorView(View):
+    def get(self,request):
+        m = Movie.objects.all()
+        results=[]
+        for a in m:
+            results.append(
+                {
+                    "title" : a.title,
+                    "release_date" : a.release_date,
+                    "running_time" : a.running_time,
+                    "actor" : [i.last_name for i in a.actor_set.all()],                    
                 }
             )
         return JsonResponse({"result":results}, status = 201)

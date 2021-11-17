@@ -12,6 +12,7 @@ class Actor(models.Model):
         db_table="actors"
 
 
+
 class Movie(models.Model):
     title = models.CharField(max_length=45)
     release_date = models.DateField(auto_now=False, null=True)
@@ -20,5 +21,7 @@ class Movie(models.Model):
         db_table="movies"
 
 class Actor_Movie(models.Model):
-    actors = models.ForeignKey('Actor', on_delete=models.CASCADE)
+    actors = models.ForeignKey('Actor', on_delete=models.CASCADE) 
     movies = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    class Meta:
+        db_table="actor_movie"

@@ -8,18 +8,6 @@ import json
 # Create your views here.
 
 class OwnersView(View):
-    # def post(self, request):
-    #     data = json.loads(request.body)
-    #     owner = Owner.objects.create(
-    #         name=data["owner"],
-    #         )
-    #     dog = Dog.objects.create(
-    #         name=data["dog"], 
-    #         owner=owner,
-    #         age = data["age"]
-    #         )
-
-    #     return JsonResponse({"result" : CREATE}, status = 201)
     def post(self, request):
         data = json.loads(request.body)
         owner = Owner.objects.create(
@@ -27,22 +15,21 @@ class OwnersView(View):
             email=data["email"],
             age=data["age"]
         )
-        return JsonResponse({"result" : "CREATE"}, status = 201)
+        return JsonResponse({"result" : "CREATE"}, status=201)
 
     def get(self, request):
-        owner_list = Owner.objects.all()
-        a = Dog.objects.all()
-        results = []
-        for owner in owner_list:
-            results.append(
+        owner = Owner.objects.all()
+        requests = []
+        for owners in owner:
+            request.append(
                 {
-                    "name" : owner.name,
-                    "email" : owner.email,
-                    "age" : owner.age,
-                    "dog_name" : list(owner.dog_set.values('name'))
+                    "name" : owners.name,
+                    "email" : owners.email,
+                    "age" : owners.age,
+                    "dog_name" : list(owners.dog_set.values('name'))
                 }
             )
-        return JsonResponse({"result" : results}, status = 201)
+        return JsonResponse({"result" : "CREATE"}, status = 201)
 
         
 
